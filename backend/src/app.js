@@ -41,6 +41,10 @@ app.use((err, req, res, next) => {
   next(err);
 });
 
+// Global error handling middleware (added)
+import errorHandler from "./middleware/errorHandler.middleware.js";
+app.use(errorHandler);
+
 // Health check route
 app.get("/", (req, res) => {
   res.json({ message: "ShopFusion API is running" });
