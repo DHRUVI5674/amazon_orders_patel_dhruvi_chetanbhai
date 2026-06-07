@@ -9,10 +9,7 @@ export const getAllOrders = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
 
-    const orders = await Order.find()
-      .skip((page - 1) * limit)
-      .limit(limit)
-      .sort({ createdAt: -1 });
+    const orders = await Order.find().lean().skip((page - 1) * limit).limit(limit).sort({ createdAt: -1 });
 
     const total = await Order.countDocuments();
 
@@ -32,15 +29,10 @@ export const getAllOrders = async (req, res) => {
  */
 export const getOrderById = async (req, res) => {
   try {
-    const order = await Order.findOne({ OrderID: req.params.orderId });
-
+    const order = await Order.findOne({ OrderID: req.params.orderId }).lean();
     if (!order) {
-      return res.status(404).json({
-        success: false,
-        message: "Order not found",
-      });
+      return res.status(404).json({ success: false, message: "Order not found" });
     }
-
     res.json({ success: true, data: order });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });

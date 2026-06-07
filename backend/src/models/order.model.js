@@ -50,9 +50,9 @@ const orderSchema = new mongoose.Schema(
     State: String,
     Country: String,
     SellerID: String,
-  },
-  { timestamps: true }
-);
+orderSchema.index({ OrderID: 1 });
+orderSchema.index({ CustomerID: 1, OrderDate: -1 });
+orderSchema.index({ ProductID: 1 });
 
 const Order = mongoose.models.Order || mongoose.model("Order", orderSchema);
 export default Order;
