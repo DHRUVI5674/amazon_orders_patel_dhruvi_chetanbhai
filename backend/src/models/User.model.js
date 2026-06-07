@@ -67,9 +67,7 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
-  },
-  { timestamps: true }
-);
+userSchema.index({ role: 1 });
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 
