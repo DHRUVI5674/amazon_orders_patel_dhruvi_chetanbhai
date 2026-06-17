@@ -2,7 +2,7 @@ import Order from "../models/order.model.js";
 import Payment from "../models/Payment.model.js";
 import Product from "../models/Product.model.js";
 import User from "../models/User.model.js";
-import Category from "../models/category.model.js";
+import Category from "../models/Category.model.js";
 import Shipment from "../models/shipment.model.js";
 
 /**
