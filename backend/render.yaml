@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: shopfusion-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Add MONGODB_URL, JWT_SECRET, etc. via the Render UI
