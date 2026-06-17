@@ -2,7 +2,7 @@
 
 import Product from "../models/product.model.js";
 import Order from "../models/order.model.js";
-import Payment from "../models/payment.model.js";
+import Payment from "../models/Payment.model.js";
 import User from "../models/user.model.js";
 import Notification from "../models/notification.model.js";
 
