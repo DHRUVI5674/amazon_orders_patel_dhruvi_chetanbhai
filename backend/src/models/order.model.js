@@ -52,7 +52,7 @@ const orderSchema = new mongoose.Schema({
 });
 
 // Indexes for better query performance
-orderSchema.index({ OrderID: 1 });
+
 orderSchema.index({ CustomerID: 1, OrderDate: -1 });
 orderSchema.index({ ProductID: 1 });
 

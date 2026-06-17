@@ -41,7 +41,7 @@ const productSchema = new mongoose.Schema(
 );
 
 // Indexes for frequent queries
-productSchema.index({ ProductID: 1 });
+
 productSchema.index({ Category: 1 });
 productSchema.index({ Brand: 1 });
 
