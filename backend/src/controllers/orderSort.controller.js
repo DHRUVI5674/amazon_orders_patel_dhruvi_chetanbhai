@@ -9,26 +9,26 @@ export const getSortedOrders = async (req, res) => {
   try {
     const { sort } = req.query;
 
-   const sortMap = {
-  amount: { TotalAmount: 1 },
-  "-amount": { TotalAmount: -1 },
+    const sortMap = {
+      amount: { TotalAmount: 1 },
+      "-amount": { TotalAmount: -1 },
 
-  date: { OrderDate: 1 },
-  "-date": { OrderDate: -1 },
+      date: { OrderDate: 1 },
+      "-date": { OrderDate: -1 },
 
-  status: { OrderStatus: 1 },
+      status: { OrderStatus: 1 },
 
-  customer: { CustomerName: 1 },
-  city: { City: 1 },
+      customer: { CustomerName: 1 },
+      city: { City: 1 },
 
-  payment: { PaymentMethod: 1 },
+      payment: { PaymentMethod: 1 },
 
-  discount: { Discount: -1 },
+      discount: { Discount: -1 },
 
-  // optional improvements
-  quantity: { Quantity: 1 },
-  "-quantity": { Quantity: -1 },
-};
+      // optional improvements
+      quantity: { Quantity: 1 },
+      "-quantity": { Quantity: -1 },
+    };
 
     const sortCondition = sortMap[sort] || { OrderDate: -1 };
 

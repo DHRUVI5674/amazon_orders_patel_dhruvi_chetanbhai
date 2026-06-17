@@ -67,7 +67,8 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
-  }
+  },
+  { timestamps: true }
 );
 userSchema.index({ role: 1 });
 

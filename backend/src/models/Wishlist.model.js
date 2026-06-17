@@ -17,6 +17,8 @@ const wishlistSchema = new mongoose.Schema(
         }
       }
     ]
+  }
+)
 wishlistSchema.index({ CustomerID: 1 });
 wishlistSchema.index({ 'Products.ProductID': 1 });
 

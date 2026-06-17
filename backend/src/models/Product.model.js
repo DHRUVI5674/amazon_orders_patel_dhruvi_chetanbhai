@@ -29,7 +29,7 @@ const productSchema = new mongoose.Schema(
 
     Quantity: {
       type: Number,
-      default: 0  
+      default: 0
     },
 
     SellerID: {

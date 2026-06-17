@@ -21,7 +21,7 @@ export const searchOrders = async (req, res) => {
 
     const regex = new RegExp(q, "i");
     const orders = await Order.find({
-       $or: [
+      $or: [
         { OrderID: { $regex: regex } },
         { CustomerName: { $regex: regex } },
         { ProductName: { $regex: regex } },
@@ -61,10 +61,10 @@ export const searchByCustomer = async (req, res) => {
     }
 
     const data = await Order.find({
-    CustomerName: new RegExp(q, "i"),
+      CustomerName: new RegExp(q, "i"),
     });
 
-    console.log("Result:", data); 
+    console.log("Result:", data);
 
     res.json({ success: true, data });
 
@@ -85,14 +85,14 @@ export const searchByProduct = async (req, res) => {
       });
     }
 
-    console.log("Search Product:", q); 
+    console.log("Search Product:", q);
 
     const regex = new RegExp(q, "i");
     const data = await Order.find({
       ProductName: { $regex: regex },
     });
 
-    console.log("Found:", data.length); 
+    console.log("Found:", data.length);
 
     res.json({
       success: true,
@@ -141,7 +141,7 @@ export const searchByBrand = async (req, res) => {
     const regex = q ? new RegExp(q, "i") : /.*/;
 
     const data = await Order.find({
-      Brand: regex, 
+      Brand: regex,
     });
 
     res.status(200).json({
@@ -194,7 +194,7 @@ export const searchByLocation = async (req, res) => {
 
     const data = await Order.find({
       $or: [
-        { City: regex },    
+        { City: regex },
         { State: regex },
         { Country: regex },
       ],
