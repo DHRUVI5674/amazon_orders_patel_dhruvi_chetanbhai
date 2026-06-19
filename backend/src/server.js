@@ -23,7 +23,7 @@ const startServer = async () => {
   try {
     await connectDB();
 
-    app.listen(PORT, () => {
+    app.listen(PORT, "0.0.0.0", () => {
       console.log(`\n✓ Server is running on port ${PORT}`);
       console.log(`✓ API available at http://localhost:${PORT}`);
       console.log(`✓ Try: http://localhost:${PORT}/api/v1/orders\n`);

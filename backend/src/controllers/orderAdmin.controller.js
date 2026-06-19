@@ -1,5 +1,5 @@
 import User from "../models/User.model.js";
-import Order from "../models/Order.model.js";
+import Order from "../models/order.model.js";
 import Payment from "../models/Payment.model.js";
 import fs from "fs";
 import path from "path";

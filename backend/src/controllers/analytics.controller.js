@@ -1,5 +1,5 @@
 import Order from "../models/order.model.js";
-import Payment from "../models/payment.model.js";
+import Payment from "../models/Payment.model.js";
 
 /**
  * =========================

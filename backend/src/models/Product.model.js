@@ -29,7 +29,7 @@ const productSchema = new mongoose.Schema(
 
     Quantity: {
       type: Number,
-      default: 0  
+      default: 0
     },
 
     SellerID: {
@@ -41,7 +41,7 @@ const productSchema = new mongoose.Schema(
 );
 
 // Indexes for frequent queries
-productSchema.index({ ProductID: 1 });
+
 productSchema.index({ Category: 1 });
 productSchema.index({ Brand: 1 });
 

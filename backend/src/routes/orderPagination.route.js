@@ -1,14 +1,14 @@
 import express from "express";
 import {
-  getOrdersPaginated,
-  getPagedOrders,
-  getInfiniteOrders,
-  getRecentOrders,
-  getCancelledOrders,
-  getRefundedOrders,
-  getCustomerOrders,
-  getProductOrders,
-  getSearchPaginatedOrders,
+   getOrdersPaginated,
+   getPagedOrders,
+   getInfiniteOrders,
+   getRecentOrders,
+   getCancelledOrders,
+   getRefundedOrders,
+   getCustomerOrders,
+   getProductOrders,
+   getSearchPaginatedOrders,
 } from "../controllers/orderPagination.controller.js";
 
 const router = express.Router();
