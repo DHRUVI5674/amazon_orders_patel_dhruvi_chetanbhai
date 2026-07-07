@@ -152,7 +152,7 @@ export const getRefundedOrders = async (req, res) => {
 export const getCustomerOrders = async (req, res) => {
   try {
     const { page, limit } = getPagination(req);
-    const customerId = req.params.CustomerID;
+    const customerId = req.params.customerId;
 
     if (!customerId) {
       return res.status(400).json({

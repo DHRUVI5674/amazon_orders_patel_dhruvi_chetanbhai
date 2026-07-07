@@ -14,10 +14,12 @@ import Analytics from "./pages/Analytics";
 import App from "./App.jsx";
 
 import "./index.css";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <Provider store={store}>
+    <ErrorBoundary>
+      <Provider store={store}>
       <BrowserRouter>
         <Routes>
           {/* Redirect root to dashboard */}
@@ -36,5 +38,6 @@ createRoot(document.getElementById("root")).render(
         </Routes>
       </BrowserRouter>
     </Provider>
+    </ErrorBoundary>
   </StrictMode>
 );
