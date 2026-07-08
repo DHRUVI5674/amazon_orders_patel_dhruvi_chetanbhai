@@ -9,6 +9,8 @@ import store from "./store/store";
 // Layouts & Pages
 import MainLayout from "./layouts/MainLayout";
 import Dashboard from "./pages/Dashboard";
+import Products from "./pages/Products";
+import Statistics from "./pages/Statistics";
 import Orders from "./pages/Orders";
 import Users from "./pages/Users";
 import Analytics from "./pages/Analytics";
@@ -55,6 +57,8 @@ createRoot(document.getElementById("root")).render(
             {/* Protected routes wrapped in MainLayout (Sidebar + Navbar) */}
             <Route element={<MainLayout />}>
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/statistics" element={<Statistics />} />
               <Route path="/orders" element={<Orders />} />
               <Route path="/users" element={<Users />} />
               <Route path="/analytics" element={<Analytics />} />
