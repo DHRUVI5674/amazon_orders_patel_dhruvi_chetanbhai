@@ -120,6 +120,14 @@ export const dashboardApi = createApi({
       }),
       ...withFallback({ customerCount: 0, count: 0 }),
     }),
+    getCategoryCount: builder.query({
+      query: () => ({ url: "/stats/categories/count" }),
+      transformResponse: (res) => ({
+        categoryCount: res?.count ?? res?.total ?? 0,
+        count: res?.count ?? res?.total ?? 0,
+      }),
+      ...withFallback({ categoryCount: 0, count: 0 }),
+    }),
     getRefundCount: builder.query({
       query: () => ({ url: "/stats/refunds/count" }),
       transformResponse: (res) => ({
@@ -136,6 +144,7 @@ export const dashboardApi = createApi({
       }),
       ...withFallback({ cancellationCount: 0, count: 0 }),
     }),
+    getAverageShippingTime: builder.query({ query: () => ({ url: "/stats/shipping/average-time" }) }),
     getSystemPerformance: builder.query({ query: () => ({ url: "/stats/system/performance" }) }),
 
     // ─── ANALYTICS (prefix: /analytics) ──────────────────────────────
@@ -240,6 +249,54 @@ export const dashboardApi = createApi({
         };
       },
       ...withFallback({ products: [] }),
+    }),
+    getTrendingProducts: builder.query({
+      query: () => ({ url: "/trending/products" }),
+      transformResponse: (res) => {
+        const data = unwrapAnalyticsData(res?.data ?? res);
+        if (!Array.isArray(data)) return res;
+        return {
+          products: data.map((r) => ({
+            productName: r._id || r.productName || r.name,
+            totalOrders: r.totalOrders ?? r.count ?? r.orders ?? 0,
+            unitsSold: r.totalOrders ?? r.count ?? r.orders ?? 0,
+            revenue: r.revenue ?? r.totalRevenue ?? 0,
+            category: r.category ?? "—",
+          })),
+        };
+      },
+      ...withFallback({ products: [] }),
+    }),
+    getRecommendedProducts: builder.query({
+      query: (customerId) => ({ url: `/recommendations/products/${customerId}` }),
+      transformResponse: (res) => {
+        const data = unwrapAnalyticsData(res?.data ?? res);
+        if (!Array.isArray(data)) return res;
+        return {
+          products: data.map((r) => ({
+            productName: r.name ?? r.productName ?? r._id,
+            category: r.category ?? r._id,
+            price: r.price ?? r.unitPrice ?? r.totalAmount ?? 0,
+            revenue: r.revenue ?? r.totalRevenue ?? 0,
+            unitsSold: r.sold ?? r.quantity ?? r.totalOrders ?? 0,
+          })),
+        };
+      },
+      ...withFallback({ products: [] }),
+    }),
+    getTrendingCategories: builder.query({
+      query: () => ({ url: "/trending/categories" }),
+      transformResponse: (res) => {
+        const data = unwrapAnalyticsData(res?.data ?? res);
+        if (!Array.isArray(data)) return res;
+        return {
+          categories: data.map((r) => ({
+            category: r._id || r.category || "—",
+            count: r.totalOrders ?? r.count ?? r.orders ?? 0,
+          })),
+        };
+      },
+      ...withFallback({ categories: [] }),
     }),
     getTopCategories: builder.query({
       query: () => ({ url: "/analytics/categories/top" }),
@@ -376,8 +433,10 @@ export const {
   useGetDailyRevenueQuery,
   useGetProductCountQuery,
   useGetCustomerCountQuery,
+  useGetCategoryCountQuery,
   useGetRefundCountQuery,
   useGetCancellationCountQuery,
+  useGetAverageShippingTimeQuery,
   useGetSystemPerformanceQuery,
   // Analytics
   useGetAnalyticsTotalRevenueQuery,
@@ -390,6 +449,9 @@ export const {
   useGetTopCustomersQuery,
   useGetTopSellingProductsQuery,
   useGetLowSellingProductsQuery,
+  useGetTrendingProductsQuery,
+  useGetRecommendedProductsQuery,
+  useGetTrendingCategoriesQuery,
   useGetTopCategoriesQuery,
   useGetPaymentDistributionQuery,
   useGetTopCitiesQuery,

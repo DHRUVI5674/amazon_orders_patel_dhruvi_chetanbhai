@@ -4,6 +4,8 @@ import { NavLink, useNavigate } from "react-router-dom";
 
 const menuItems = [
   { name: "Dashboard", path: "/dashboard", emoji: "🏠" },
+  { name: "Products",  path: "/products",  emoji: "🛍️" },
+  { name: "Statistics", path: "/statistics", emoji: "📈" },
   { name: "Orders",    path: "/orders",    emoji: "📦" },
   { name: "Users",     path: "/users",     emoji: "👥" },
   { name: "Analytics", path: "/analytics", emoji: "📊" },
