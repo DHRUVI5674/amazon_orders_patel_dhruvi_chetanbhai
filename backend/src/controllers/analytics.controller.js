@@ -103,7 +103,9 @@ export const getCancelledOrders = async (req, res) => {
 
 export const getRefundedOrders = async (req, res) => {
   try {
-    const data = await Payment.find({ status: "Refunded" });
+    const data = await Payment.find({
+      PaymentStatus: { $regex: "^refunded$", $options: "i" },
+    });
     res.json({ success: true, source: "Payment", count: data.length, data });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
@@ -122,6 +124,7 @@ export const getTopCustomers = async (req, res) => {
       {
         $group: {
           _id: "$CustomerName",
+          orderCount: { $sum: 1 },
           totalSpent: { $sum: "$TotalAmount" },
         },
       },
@@ -148,6 +151,7 @@ export const getTopSellingProducts = async (req, res) => {
         $group: {
           _id: "$ProductName",
           sold: { $sum: "$Quantity" },
+          totalRevenue: { $sum: "$TotalAmount" },
         },
       },
       { $sort: { sold: -1 } },
@@ -167,6 +171,7 @@ export const getLowSellingProducts = async (req, res) => {
         $group: {
           _id: "$ProductName",
           sold: { $sum: "$Quantity" },
+          totalRevenue: { $sum: "$TotalAmount" },
         },
       },
       { $sort: { sold: 1 } },
@@ -214,8 +219,9 @@ export const getPaymentDistribution = async (req, res) => {
     const data = await Payment.aggregate([
       {
         $group: {
-          _id: "$method",
+          _id: "$PaymentMethod",
           count: { $sum: 1 },
+          amount: { $sum: "$TotalAmount" },
         },
       },
     ]);

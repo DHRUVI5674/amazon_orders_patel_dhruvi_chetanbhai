@@ -9,23 +9,30 @@ import orderAdminRoutes from "./routes/orderAdmin.route.js";
 import errorRoutes from "./routes/orderError.route.js";
 import validationRoutes from "./routes/orderValidation.route.js";
 import advancedRoutes from "./routes/orderAdvance.route.js";
+import errorHandler from "./middleware/errorHandler.middleware.js";
 
 const app = express();
 
 const allowedOrigins = process.env.CORS_ORIGINS
   ? process.env.CORS_ORIGINS.split(",").map((origin) => origin.trim())
-  : ["http://localhost:3000"];
+  : null;
 
-const corsOptions = {
-  origin(origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("CORS policy: origin not allowed"));
+const corsOptions = allowedOrigins
+  ? {
+      origin(origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error("CORS policy: origin not allowed"));
+        }
+      },
+      credentials: true,
     }
-  },
-  credentials: true,
-};
+  : {
+      // Allow any frontend origin when CORS_ORIGINS is not set (local + deployed UIs).
+      origin: true,
+      credentials: true,
+    };
 
 app.use(cors(corsOptions));
 app.options(/.*/, cors(corsOptions));
@@ -40,10 +47,6 @@ app.use((err, req, res, next) => {
   }
   next(err);
 });
-
-// Global error handling middleware (added)
-import errorHandler from "./middleware/errorHandler.middleware.js";
-app.use(errorHandler);
 
 // Health check route
 app.get("/", (req, res) => {
@@ -64,6 +67,9 @@ app.use("/api/v1/admin", orderAdminRoutes);
 app.use("/api/v1/errors", errorRoutes);
 app.use("/api/v1/validate", validationRoutes);
 app.use("/api/v1", advancedRoutes);
+
+// Global error handling middleware (must be after routes)
+app.use(errorHandler);
 export default app;
 
 
