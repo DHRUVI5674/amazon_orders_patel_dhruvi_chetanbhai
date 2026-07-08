@@ -21,6 +21,12 @@ export const register = async (req, res) => {
 
     res.status(201).json({ success: true, user });
   } catch (err) {
+    // Handle duplicate key error (E11000) from MongoDB
+    if (err && err.code === 11000) {
+      const dupKey = Object.keys(err.keyValue || {})[0] || "field";
+      return res.status(400).json({ success: false, message: `${dupKey} already exists` });
+    }
+
     res.status(500).json({ success: false, message: err.message });
   }
 };

@@ -67,6 +67,13 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    // Ensure each user has a unique customerId to avoid DB-level unique-index collisions
+    customerId: {
+      type: String,
+      unique: true,
+      index: true,
+      default: () => new mongoose.Types.ObjectId().toString(),
+    },
   },
   { timestamps: true }
 );
