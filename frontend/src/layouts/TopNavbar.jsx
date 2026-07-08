@@ -1,6 +1,8 @@
 // src/layouts/TopNavbar.jsx
 import React, { useState, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../features/auth/authSlice";
 
 const PAGE_TITLES = {
   "/dashboard": "Dashboard",
@@ -14,14 +16,25 @@ export default React.memo(function TopNavbar() {
   const [profileOpen, setProfileOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
 
   const currentPage = PAGE_TITLES[location.pathname] || "ShopFusion";
 
+  const displayName = user?.name || "Admin";
+  const displayEmail = user?.email || "admin@shopfusion.com";
+  const initials = displayName
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
+
   const handleLogout = useCallback(() => {
-    localStorage.removeItem("token");
-    navigate("/");
+    dispatch(logout());
+    navigate("/login");
     setProfileOpen(false);
-  }, [navigate]);
+  }, [navigate, dispatch]);
 
   return (
     <header style={{
@@ -101,10 +114,10 @@ export default React.memo(function TopNavbar() {
               background:"linear-gradient(135deg,#147EB3,#8b5cf6)",
               display:"flex", alignItems:"center", justifyContent:"center",
               color:"#fff", fontWeight:700, fontSize:13, flexShrink:0,
-            }}>A</div>
+            }}>{initials}</div>
             <div style={{ textAlign:"left" }}>
-              <div style={{ fontSize:13, fontWeight:600, color:"#1a1a2e" }}>Admin</div>
-              <div style={{ fontSize:11, color:"#9ca3af" }}>Administrator</div>
+              <div style={{ fontSize:13, fontWeight:600, color:"#1a1a2e" }}>{displayName}</div>
+              <div style={{ fontSize:11, color:"#9ca3af" }}>{user?.role ? user.role.charAt(0).toUpperCase() + user.role.slice(1) : "Administrator"}</div>
             </div>
             <span style={{ fontSize:12, color:"#9ca3af" }}>▾</span>
           </button>
@@ -116,8 +129,8 @@ export default React.memo(function TopNavbar() {
               boxShadow:"0 8px 32px rgba(0,0,0,0.12)", zIndex:100, overflow:"hidden",
             }}>
               <div style={{ padding:"12px 16px", borderBottom:"1px solid #f0f0f0" }}>
-                <div style={{ fontSize:13.5, fontWeight:600, color:"#1a1a2e" }}>Admin User</div>
-                <div style={{ fontSize:12, color:"#9ca3af" }}>admin@shopfusion.com</div>
+                <div style={{ fontSize:13.5, fontWeight:600, color:"#1a1a2e" }}>{displayName}</div>
+                <div style={{ fontSize:12, color:"#9ca3af" }}>{displayEmail}</div>
               </div>
               <button onClick={handleLogout} style={{
                 width:"100%", padding:"12px 16px", background:"none", border:"none",
