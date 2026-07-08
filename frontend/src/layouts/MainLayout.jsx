@@ -1,10 +1,25 @@
 // src/layouts/MainLayout.jsx
-import React from "react";
-import { Outlet } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Outlet, Navigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import Sidebar from "../components/Sidebar";
 import TopNavbar from "./TopNavbar";
+import { fetchUserProfile } from "../features/auth/authSlice";
 
 const MainLayout = React.memo(function MainLayout() {
+  const dispatch = useDispatch();
+  const { token, isAuthenticated, user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (token && !user) {
+      dispatch(fetchUserProfile());
+    }
+  }, [token, user, dispatch]);
+
+  if (!isAuthenticated || !token) {
+    return <Navigate to="/login" replace />;
+  }
+
   return (
     <div style={{ display:"flex", minHeight:"100vh", width:"100%" }}>
       <Sidebar />

@@ -19,8 +19,6 @@ body {
 #root {
   width: 100%;
   min-height: 100vh;
-  display: flex;
-  flex-direction: row;
 }
 
 /* ────────────────────────────────────────────────
@@ -208,3 +206,12 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 .fade-in { animation: fadeInUp 0.4s ease both; }
+
+/* ────────────────────────────────────────────────
+   Fade-in (for alerts on auth pages)
+──────────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeIn { animation: fadeIn 0.3s ease both; }
